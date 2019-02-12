@@ -148,6 +148,80 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Hexo搭建的GitHub博客" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/12/Hexo搭建的GitHub博客/">Hexo搭建的GitHub博客</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/12/Hexo搭建的GitHub博客/" class="archive-article-date">
+  	<time datetime="2019-02-12T10:04:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>未完待续。。。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/12/Hexo搭建的GitHub博客/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Method-Swizzling黑魔法" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -168,8 +242,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我们可以使用苹果的“黑魔法”Method Swizzling，Method Swizzling本质上就是对IMP和SEL进行交换。</p>
-<h4 id="Method-Swizzling原理"><a href="#Method-Swizzling原理" class="headerlink" title="Method Swizzling原理"></a>Method Swizzling原理</h4><p>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</p>
+        <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</p>
 <p>而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。</p>
         
           <a class="article-more-a" href="/2019/02/12/Method-Swizzling黑魔法/#more">more >></a>
@@ -246,39 +319,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="了解反射机制"><a href="#了解反射机制" class="headerlink" title="了解反射机制"></a>了解反射机制</h3><p><code>Objective-C</code>语言中的<code>OC</code>对象，都继承自<code>NSObject</code>类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在<code>NSObject</code>和<code>Foundation</code>框架中。</p>
-<p>反射机制涉及到的东西比较多，这篇文章只从<code>OC</code>层面来讲反射机制，不涉及<code>runtime</code>部分，以后会写文章来专门讲<code>runtime</code>的。</p>
-<h5 id="获取Class对象"><a href="#获取Class对象" class="headerlink" title="获取Class对象"></a>获取Class对象</h5><p><code>Class</code>对象其实本质上就是一个结构体，这个结构体中的成员变量还是自己，这种设计方式非常像链表的数据结构。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_class *Class;</span><br><span class="line">struct objc_class &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;                                  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以直接用一个实例对象或类对象，直接调用<code>Class</code>方法，都可以获取<code>Class</code>对象。我们调用下面三个方法，都可以获得<code>Class</code>对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 在实例方法中通过self调用class实例方法获取类对象</span><br><span class="line">[self class]</span><br><span class="line">// 通过ViewController类直接调用class类方法获取类对象</span><br><span class="line">[ViewController class]</span><br><span class="line">// 在类方法中使用类对象调用class方法获取类对象</span><br><span class="line">+ (Class)classMethod &#123;</span><br><span class="line">    return [self class];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过打印，我们发现调用这三个方法，获取到的类对象是同一个类对象，内存地址也是一样的。<br>这是因为这三个方法调用<code>class</code>方法，打印的都是类对象的<code>isa</code>指针。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@&quot;%p, %p, %p&quot;, [ViewController classMethod], [ViewController class], [self class]);</span><br><span class="line">打印结果：0x10c68e978, 0x10c68e978, 0x10c68e978</span><br></pre></td></tr></table></figure>
-<h5 id="反射方法"><a href="#反射方法" class="headerlink" title="反射方法"></a>反射方法</h5><p>系统<code>Foundation</code>框架为我们提供了一些方法反射的API，我们可以通过这些API执行将字符串转为<code>SEL</code>等操作。由于<code>OC</code>语言的动态性，这些操作都是发生在运行时的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// SEL和字符串转换</span><br><span class="line">FOUNDATION_EXPORT NSString *NSStringFromSelector(SEL aSelector);</span><br><span class="line">FOUNDATION_EXPORT SEL NSSelectorFromString(NSString *aSelectorName);</span><br><span class="line">// Class和字符串转换</span><br><span class="line">FOUNDATION_EXPORT NSString *NSStringFromClass(Class aClass);</span><br><span class="line">FOUNDATION_EXPORT Class __nullable NSClassFromString(NSString *aClassName);</span><br><span class="line">// Protocol和字符串转换</span><br><span class="line">FOUNDATION_EXPORT NSString *NSStringFromProtocol(Protocol *proto) NS_AVAILABLE(10_5, 2_0);</span><br><span class="line">FOUNDATION_EXPORT Protocol * __nullable NSProtocolFromString(NSString *namestr) NS_AVAILABLE(10_5, 2_0);</span><br></pre></td></tr></table></figure>
-<p>通过这些方法，我们可以在运行时选择创建那个实例，并动态选择调用哪个方法。这些操作甚至可以由服务器传回来的参数来控制，我们可以将服务器传回来的类名和方法名，实例为我们的对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 假设从服务器获取JSON串，通过这个JSON串获取需要创建的类为ViewController，并且调用这个类的getDataList方法。</span><br><span class="line">Class class = NSClassFromString(@&quot;ViewController&quot;);</span><br><span class="line">ViewController *vc = [[class alloc] init];</span><br><span class="line">SEL selector = NSSelectorFromString(@&quot;getDataList&quot;);</span><br><span class="line">[vc performSelector:selector];</span><br></pre></td></tr></table></figure>
-<h5 id="常用判断方法"><a href="#常用判断方法" class="headerlink" title="常用判断方法"></a>常用判断方法</h5><p>在<code>NSObject</code>类中为我们提供了一些基础方法，用来做一些判断操作，这些方法都是发生在运行时动态判断的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 当前对象是否这个类或其子类的实例</span><br><span class="line">- (BOOL)isKindOfClass:(Class)aClass;</span><br><span class="line">// 当前对象是否是这个类的实例</span><br><span class="line">- (BOOL)isMemberOfClass:(Class)aClass;</span><br><span class="line">// 当前对象是否遵守这个协议</span><br><span class="line">- (BOOL)conformsToProtocol:(Protocol *)aProtocol;</span><br><span class="line">// 当前对象是否实现这个方法</span><br><span class="line">- (BOOL)respondsToSelector:(SEL)aSelector;</span><br></pre></td></tr></table></figure>
-<p>下面的代码是判断当前对象是否是<code>UIView</code>对象或其子类，其它方法使用和下面类似。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ([self isKindOfClass:NSClassFromString(@&quot;UIView&quot;)]) &#123;</span><br><span class="line">    NSLog(@&quot;The Current Class is UIView Class&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="反射机制使用技巧"><a href="#反射机制使用技巧" class="headerlink" title="反射机制使用技巧"></a>反射机制使用技巧</h3><blockquote>
-<p>假设有一天公司产品要实现一个需求：根据后台推送过来的数据，进行动态页面跳转，跳转到页面后根据返回到数据执行对应的操作。</p>
-</blockquote>
-<p>遇到这样奇葩的需求，我们当然可以问产品都有哪些情况执行哪些方法，然后写一大堆<code>if else</code>判断或<code>switch</code>判断。<br>但是这种方法实现起来太low了，而且不够灵活，假设后续版本需求变了，还要往其他已有页面中跳转，这不就傻眼了吗….</p>
-<p>这种情况反射机制就派上用场了，我们可以用反射机制动态的创建类并执行方法。当然也可以通过<code>runtime</code>来实现这个功能，但是我们当前需求反射机制已经足够满足需求了，如果遇到更加复杂的需求可以考虑用<code>runtime</code>来实现。</p>
-<p>这时候就需要和后台配合了，我们首先需要和后台商量好返回的数据结构，以及数据格式、类型等，返回后我们按照和后台约定的格式，根据后台返回的信息，直接进行反射和调用即可。</p>
-<p>假设和后台约定格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">     // 类名</span><br><span class="line">     @&quot;className&quot; : @&quot;UserListViewController&quot;, </span><br><span class="line">     // 数据参数</span><br><span class="line">     @&quot;propertys&quot; : @&#123; @&quot;name&quot;: @&quot;liuxiaozhuang&quot;, </span><br><span class="line">                       @&quot;age&quot;: @3 &#125;,</span><br><span class="line">     // 调用方法名</span><br><span class="line">     @&quot;method&quot; : @&quot;refreshUserInformation&quot;</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
-<p>定义一个<code>UserListViewController</code>类，这个类用于测试，在实际使用中可能会有多个这样的控制器类。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line">// 由于使用的KVC赋值，如果不想把这两个属性暴露出来，把这两个属性写在.m文件也可以</span><br><span class="line">@interface UserListViewController : UIViewController</span><br><span class="line">@property (nonatomic,strong) NSString *name;/*!&lt; 用户名 */</span><br><span class="line">@property (nonatomic,strong) NSNumber *age;/*!&lt; 用户年龄 */</span><br><span class="line">/** 使用反射机制反射为SEL后，调用的方法 */</span><br><span class="line">- (void)refreshUserInformation;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>下面通过反射机制简单实现了控制器跳转的方法，在实际使用中再根据业务需求进行修改即可。因为这篇文章主要是讲反射机制，所以没有使用<code>runtime</code>代码。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 简单封装的页面跳转方法，只是做演示，代码都是没问题的，使用时可以根据业务需求进行修改。</span><br><span class="line">- (void)remoteNotificationDictionary:(NSDictionary *)dict &#123;</span><br><span class="line">    // 根据字典字段反射出我们想要的类，并初始化控制器</span><br><span class="line">    Class class = NSClassFromString(dict[@&quot;className&quot;]);</span><br><span class="line">    UIViewController *vc = [[class alloc] init];</span><br><span class="line">    // 获取参数列表，使用枚举的方式，对控制器属性进行KVC赋值</span><br><span class="line">    NSDictionary *parameter = dict[@&quot;propertys&quot;];</span><br><span class="line">    [parameter enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) &#123;</span><br><span class="line">        // 在属性赋值时，做容错处理，防止因为后台数据导致的异常</span><br><span class="line">        if ([vc respondsToSelector:NSSelectorFromString(key)]) &#123;</span><br><span class="line">            [vc setValue:obj forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [self.navigationController pushViewController:vc animated:YES];</span><br><span class="line">    // 从字典中获取方法名，并调用对应的方法</span><br><span class="line">    SEL selector = NSSelectorFromString(dict[@&quot;method&quot;]);</span><br><span class="line">    [vc performSelector:selector];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p>本<code>Demo</code>模拟应用程序根据远程推送过来的数据，<strong>动态进行页面跳转和调用等操作</strong>。只是简单实现了一个<code>Demo</code>，在实际应用中可以根据业务需求做更复杂的处理。</p>
-<p><code>Demo</code>只是来辅助读者更好的理解文章中的内容，<strong>应该博客结合Demo一起学习，只看Demo还是不能理解更深层的原理</strong>。<code>Demo</code>中代码都会有注释，各位可以打断点跟着<code>Demo</code>执行流程走一遍，看看各个阶段变量的值。c</p>
-
+        <h3 id="了解反射机制"><a href="#了解反射机制" class="headerlink" title="了解反射机制"></a>了解反射机制</h3><p>Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。</p>
+        
+          <a class="article-more-a" href="/2019/02/12/反射机制/#more">more >></a>
+        
       
 
       
