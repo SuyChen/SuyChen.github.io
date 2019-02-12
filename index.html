@@ -171,10 +171,8 @@
         <p>我们可以使用苹果的“黑魔法”Method Swizzling，Method Swizzling本质上就是对IMP和SEL进行交换。</p>
 <h4 id="Method-Swizzling原理"><a href="#Method-Swizzling原理" class="headerlink" title="Method Swizzling原理"></a>Method Swizzling原理</h4><p>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</p>
 <p>而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。</p>
-<h6 id="首先，让我们通过两张图片来了解一下Method-Swizzling的实现原理"><a href="#首先，让我们通过两张图片来了解一下Method-Swizzling的实现原理" class="headerlink" title="首先，让我们通过两张图片来了解一下Method Swizzling的实现原理"></a>首先，让我们通过两张图片来了解一下Method Swizzling的实现原理</h6><p><img src="/shard/s61/res/cba26a16-02e0-4414-85f4-f41d4e34b2dd" alt="img"></p>
-<p>图一</p>
-<p><img src="/shard/s61/res/49314fc6-2af1-4b93-b1ae-2c62912b4ed2" alt="img"></p>
-<p>图二</p>
+<h6 id="首先，让我们通过两张图片来了解一下Method-Swizzling的实现原理"><a href="#首先，让我们通过两张图片来了解一下Method-Swizzling的实现原理" class="headerlink" title="首先，让我们通过两张图片来了解一下Method Swizzling的实现原理"></a>首先，让我们通过两张图片来了解一下Method Swizzling的实现原理</h6><p><img src="/2019/02/12/Method-Swizzling黑魔法/1.png" alt="图一"></p>
+<p><img src="/2019/02/12/Method-Swizzling黑魔法/2.png" alt="图二"></p>
 <p>上面图一中selector2原本对应着IMP2，但是为了更方便的实现特定业务需求，我们在图二中添加了selector3和IMP3，并且让selector2指向了IMP3，而selector3则指向了IMP2，这样就实现了“方法互换”。</p>
 <p>在OC语言的runtime特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的SEL，这个SEL对应着一个IMP(一个IMP可以对应多个SEL)，通过这个IMP找到对应的方法调用。</p>
 <p>在每个类中都有一个Dispatch Table，这个Dispatch Table本质是将类中的SEL和IMP(可以理解为函数指针)进行对应。而我们的Method Swizzling就是对这个table进行了操作，让SEL对应另一个IMP。</p>
@@ -286,14 +284,14 @@
 <p>​    Method toMethod = class_getInstanceMethod(objc_getClass(“__NSArrayM”), @selector(lxz_objectAtIndexM:));</p>
 <p>​    method_exchangeImplementations(fromMethod, toMethod);</p>
 <p>}</p>
-<h6 id="这里由于在子类中调用了super，导致NSMutableArray执行时，父类NSArray也被执行了一次。"><a href="#这里由于在子类中调用了super，导致NSMutableArray执行时，父类NSArray也被执行了一次。" class="headerlink" title="这里由于在子类中调用了super，导致NSMutableArray执行时，父类NSArray也被执行了一次。"></a>这里由于在子类中调用了super，导致NSMutableArray执行时，父类NSArray也被执行了一次。</h6><p><img src="/shard/s61/res/784828fe-ed0e-4d21-a430-52fe3cb83f8c" alt="img"></p>
+<h6 id="这里由于在子类中调用了super，导致NSMutableArray执行时，父类NSArray也被执行了一次。"><a href="#这里由于在子类中调用了super，导致NSMutableArray执行时，父类NSArray也被执行了一次。" class="headerlink" title="这里由于在子类中调用了super，导致NSMutableArray执行时，父类NSArray也被执行了一次。"></a>这里由于在子类中调用了super，导致NSMutableArray执行时，父类NSArray也被执行了一次。</h6><p><img src="/2019/02/12/Method-Swizzling黑魔法/3.png" alt="img"></p>
 <p>第一次</p>
-<h6 id="父类NSArray执行了第二次Swizzling，这时候就会出现问题，后面会讲具体原因。"><a href="#父类NSArray执行了第二次Swizzling，这时候就会出现问题，后面会讲具体原因。" class="headerlink" title="父类NSArray执行了第二次Swizzling，这时候就会出现问题，后面会讲具体原因。"></a>父类NSArray执行了第二次Swizzling，这时候就会出现问题，后面会讲具体原因。</h6><p><img src="/shard/s61/res/1c6a67c1-ddf7-475c-9140-064a3b9a5f70" alt="img"></p>
+<h6 id="父类NSArray执行了第二次Swizzling，这时候就会出现问题，后面会讲具体原因。"><a href="#父类NSArray执行了第二次Swizzling，这时候就会出现问题，后面会讲具体原因。" class="headerlink" title="父类NSArray执行了第二次Swizzling，这时候就会出现问题，后面会讲具体原因。"></a>父类NSArray执行了第二次Swizzling，这时候就会出现问题，后面会讲具体原因。</h6><p><img src="/2019/02/12/Method-Swizzling黑魔法/4.png" alt="img"></p>
 <p>第二次</p>
 <p>这样就会导致程序运行过程中，子类调用Swizzling的方法是没有问题的，父类调用同一个方法就会发现Swizzling失效了…..具体原因我们后面讲！</p>
 <p>还有一个原因就是因为代码逻辑导致Swizzling代码被执行了多次，这也会导致Swizzling失效，其实原理和上面的问题是一样的，我们下面讲讲为什么会出现这个问题。</p>
 <h6 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h6><p>我们上面提到过Method Swizzling的实现原理就是对类的Dispatch Table进行操作，每进行一次Swizzling就交换一次SEL和IMP(可以理解为函数指针)，如果Swizzling被执行了多次，就相当于SEL和IMP被交换了多次。这就会导致第一次执行成功交换了、第二次执行又换回去了、第三次执行…..这样换来换去的结果，能不能成功就看运气了😄，这也是好多人说Method Swizzling不好用的原因之一。</p>
-<h6 id="一图胜千言："><a href="#一图胜千言：" class="headerlink" title="一图胜千言："></a>一图胜千言：</h6><p><img src="/shard/s61/res/191e02b0-63d6-4bac-ad34-15d5b9b8ac10" alt="img"></p>
+<h6 id="一图胜千言："><a href="#一图胜千言：" class="headerlink" title="一图胜千言："></a>一图胜千言：</h6><p><img src="/2019/02/12/Method-Swizzling黑魔法/5.png" alt="img"></p>
 <p>Dispatch Table 交换流程</p>
 <p>从这张图中我们也可以看出问题产生的原因了，就是Swizzling的代码被重复执行，为了避免这样的原因出现，我们可以通过GCD的dispatch_once函数来解决，利用dispatch_once函数内代码只会执行一次的特性。</p>
 <p>在每个Method Swizzling的地方，加上dispatch_once函数保证代码只被执行一次。当然在实际使用中也可以对下面代码进行封装，这里只是给一个示例代码。</p>
@@ -447,6 +445,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
