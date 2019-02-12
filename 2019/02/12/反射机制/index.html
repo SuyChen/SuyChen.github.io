@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://SuyChen.github.io">
   <title>反射机制 | SuyChen的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="了解反射机制Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。 获取Class对象Class对象其实本质上就是一个结构体，这个结构体中的成员变量还是自己，这种设计方式非常像链表的数据结构。 1234typedef stru">
+  <meta name="description" content="了解反射机制Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="反射机制">
 <meta property="og:url" content="http://SuyChen.github.io/2019/02/12/反射机制/index.html">
 <meta property="og:site_name" content="SuyChen的Blog">
-<meta property="og:description" content="了解反射机制Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。 获取Class对象Class对象其实本质上就是一个结构体，这个结构体中的成员变量还是自己，这种设计方式非常像链表的数据结构。 1234typedef stru">
+<meta property="og:description" content="了解反射机制Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-12T10:10:01.138Z">
+<meta property="og:updated_time" content="2019-02-12T10:13:54.848Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="反射机制">
-<meta name="twitter:description" content="了解反射机制Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。 获取Class对象Class对象其实本质上就是一个结构体，这个结构体中的成员变量还是自己，这种设计方式非常像链表的数据结构。 1234typedef stru">
+<meta name="twitter:description" content="了解反射机制Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。">
   
     <link rel="alternative" href="/atom.xml" title="SuyChen的Blog" type="application/atom+xml">
   
@@ -172,6 +172,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="了解反射机制"><a href="#了解反射机制" class="headerlink" title="了解反射机制"></a>了解反射机制</h3><p>Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。</p>
+<a id="more"></a>
 <h5 id="获取Class对象"><a href="#获取Class对象" class="headerlink" title="获取Class对象"></a>获取Class对象</h5><p><code>Class</code>对象其实本质上就是一个结构体，这个结构体中的成员变量还是自己，这种设计方式非常像链表的数据结构。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_class *Class;</span><br><span class="line">struct objc_class &#123;</span><br><span class="line">    Class isa  OBJC_ISA_AVAILABILITY;                                  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以直接用一个实例对象或类对象，直接调用<code>Class</code>方法，都可以获取<code>Class</code>对象。我们调用下面三个方法，都可以获得<code>Class</code>对象。</p>
