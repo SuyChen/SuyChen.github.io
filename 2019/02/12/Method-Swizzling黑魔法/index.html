@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/3.png">
 <meta property="og:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/4.png">
 <meta property="og:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/5.png">
-<meta property="og:updated_time" content="2019-02-12T09:53:51.228Z">
+<meta property="og:updated_time" content="2019-02-12T09:57:24.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Method Swizzling黑魔法">
 <meta name="twitter:description" content="我们可以使用苹果的“黑魔法”Method Swizzling，Method Swizzling本质上就是对IMP和SEL进行交换。 Method Swizzling原理Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。">
@@ -180,6 +180,7 @@
         <p>我们可以使用苹果的“黑魔法”Method Swizzling，Method Swizzling本质上就是对IMP和SEL进行交换。</p>
 <h4 id="Method-Swizzling原理"><a href="#Method-Swizzling原理" class="headerlink" title="Method Swizzling原理"></a>Method Swizzling原理</h4><p>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</p>
 <p>而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。</p>
+<a id="more"></a>
 <h6 id="首先，让我们通过两张图片来了解一下Method-Swizzling的实现原理"><a href="#首先，让我们通过两张图片来了解一下Method-Swizzling的实现原理" class="headerlink" title="首先，让我们通过两张图片来了解一下Method Swizzling的实现原理"></a>首先，让我们通过两张图片来了解一下Method Swizzling的实现原理</h6><p><img src="/2019/02/12/Method-Swizzling黑魔法/1.png" alt="图一"></p>
 <p><img src="/2019/02/12/Method-Swizzling黑魔法/2.png" alt="图二"></p>
 <p>上面图一中selector2原本对应着IMP2，但是为了更方便的实现特定业务需求，我们在图二中添加了selector3和IMP3，并且让selector2指向了IMP3，而selector3则指向了IMP2，这样就实现了“方法互换”。</p>
