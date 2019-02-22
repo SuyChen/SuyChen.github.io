@@ -8,23 +8,23 @@
   <link rel="dns-prefetch" href="http://SuyChen.github.io">
   <title>Method Swizzling黑魔法 | SuyChen的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="原理Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。 而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。">
+  <meta name="description" content="原理Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Method Swizzling黑魔法">
 <meta property="og:url" content="http://SuyChen.github.io/2019/02/12/Method-Swizzling黑魔法/index.html">
 <meta property="og:site_name" content="SuyChen的Blog">
-<meta property="og:description" content="原理Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。 而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。">
+<meta property="og:description" content="原理Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/1.png">
 <meta property="og:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/2.png">
 <meta property="og:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/3.png">
 <meta property="og:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/4.png">
 <meta property="og:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/5.png">
-<meta property="og:updated_time" content="2019-02-12T10:13:40.027Z">
+<meta property="og:updated_time" content="2019-02-22T06:21:03.831Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Method Swizzling黑魔法">
-<meta name="twitter:description" content="原理Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。 而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。">
+<meta name="twitter:description" content="原理Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。">
 <meta name="twitter:image" content="http://suychen.github.io/2019/02/12/Method-Swizzling黑魔法/1.png">
   
     <link rel="alternative" href="/atom.xml" title="SuyChen的Blog" type="application/atom+xml">
@@ -177,8 +177,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</p>
-<p>而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。</p>
+        <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><h4 id="Method-Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method-Swizzling代码写到任何地方，但是只有在这段Method-Swilzzling代码执行完毕之后互换才起作用。"><a href="#Method-Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method-Swizzling代码写到任何地方，但是只有在这段Method-Swilzzling代码执行完毕之后互换才起作用。" class="headerlink" title="Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。"></a>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</h4><p>而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。</p>
 <a id="more"></a>
 <h6 id="首先，让我们通过两张图片来了解一下Method-Swizzling的实现原理"><a href="#首先，让我们通过两张图片来了解一下Method-Swizzling的实现原理" class="headerlink" title="首先，让我们通过两张图片来了解一下Method Swizzling的实现原理"></a>首先，让我们通过两张图片来了解一下Method Swizzling的实现原理</h6><p><img src="/2019/02/12/Method-Swizzling黑魔法/1.png" alt="图一"></p>
 <p><img src="/2019/02/12/Method-Swizzling黑魔法/2.png" alt="图二"></p>
@@ -444,6 +443,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/02/22/UIBezierPath/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          UIBezierPath
+        
+      </div>
+    </a>
   
   
     <a href="/2019/01/05/反射机制/" id="article-nav-older" class="article-nav-link-wrap">

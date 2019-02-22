@@ -23,8 +23,7 @@
 <meta property="og:image" content="http://suychen.github.io/2018/10/16/Hexo搭建的GitHub博客/5.png">
 <meta property="og:image" content="http://suychen.github.io/2018/10/16/Hexo搭建的GitHub博客/6.png">
 <meta property="og:image" content="http://suychen.github.io/2018/10/16/Hexo搭建的GitHub博客/xxxx/图片名.jpg">
-<meta property="og:image" content="http://suychen.github.io/2018/10/16/Hexo搭建的GitHub博客/2017/02/26/xxxx/图片名.jpg">
-<meta property="og:updated_time" content="2019-02-22T03:43:18.455Z">
+<meta property="og:updated_time" content="2019-02-22T06:00:07.430Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo搭建的GitHub博客">
 <meta name="twitter:description" content="为什么想要写博客？年龄大了记性不好，想要整理些有用的东西。。。">
@@ -223,8 +222,7 @@
 <p>设置你的账号信息:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;你的名字&quot;     #真实名字不是github用户名</span><br><span class="line">git config --global user.email &quot;邮箱@邮箱.com&quot;    #github邮箱</span><br></pre></td></tr></table></figure>
 <h5 id="11-部署到GitHub"><a href="#11-部署到GitHub" class="headerlink" title="11.部署到GitHub"></a>11.部署到GitHub</h5><p>$ hexo d</p>
-<h4 id="解决的坑"><a href="#解决的坑" class="headerlink" title="解决的坑"></a>解决的坑</h4><p>#####hexo上传图片</p>
-<ol>
+<h4 id="解决的坑"><a href="#解决的坑" class="headerlink" title="解决的坑"></a>解决的坑</h4><h5 id="hexo上传图片"><a href="#hexo上传图片" class="headerlink" title="hexo上传图片"></a>hexo上传图片</h5><ol>
 <li><p>把主页配置文件_config.yml 里的post_asset_folder:这个选项设置为true</p>
 </li>
 <li><p>在你的hexo目录下执行这样一句话npm install hexo-asset-image –save，这是下载安装一个可以上传本地图片的插件，来自dalao：dalao的git</p>
@@ -233,7 +231,7 @@
 </li>
 <li><p>最后在<code>xxxx.md</code>中想引入图片时，先把图片复制到xxxx这个文件夹中，然后只需要在xxxx.md中按照<a href="https://www.baidu.com/s?wd=markdown&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">markdown</a>的格式引入图片：<img src="/2018/10/16/Hexo搭建的GitHub博客/xxxx/图片名.jpg" alt="你想输入的替代文字"></p>
 </li>
-<li><p>最后检查一下，hexo g生成页面后，进入public\2017\02\26\index.html文件中查看相关字段，可以发现，html标签内的语句是<img src="/2018/10/16/Hexo搭建的GitHub博客/2017/02/26/xxxx/图片名.jpg">，而不是&lt;img src=”xxxx/图片名.jpg&gt;。这很重要，关乎你的网页是否可以真正加载你想插入的图片。</p>
+<li><p>最后检查一下，hexo g生成页面后，进入public\2017\02\26\index.html文件中查看相关字段，可以发现，html标签内的语句是&lt; img src=”2017/02/26/xxxx/图片名.jpg”&gt;，而不是&lt;img src=”xxxx/图片名.jpg&gt;。这很重要，关乎你的网页是否可以真正加载你想插入的图片。</p>
 </li>
 </ol>
 <h5 id="yilia主题上传头像"><a href="#yilia主题上传头像" class="headerlink" title="yilia主题上传头像"></a>yilia主题上传头像</h5><p>把头像拖到yalia主题下的source文件夹里面，打开_config.yml， 修改 avatar: /avatar.png（这里填自己图片的名字）</p>

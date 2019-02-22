@@ -148,6 +148,82 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-UIBezierPath" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/22/UIBezierPath/">UIBezierPath</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/22/UIBezierPath/" class="archive-article-date">
+  	<time datetime="2019-02-22T06:18:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>&emsp;&emsp;最近在做拼图的项目，刚开始还一脸懵逼，这该怎么画。。。感觉用iOS原生代码好难实现，经过调研之后发现用三阶贝塞尔曲线可以实现，不禁感慨千人的智慧实在是太强大了。之前也用过一些贝塞尔曲线的方法，都是画简单的图形，比如说圆，椭圆，直线等等，这些UIBezierPath都提供有专门的方法来实现，但是用到曲线的地方还是很少的，特别是三阶曲线，更不要说四阶，五阶了，所以今天介绍一下关于贝塞尔曲线的前世今生和本人遇到的问题。 </p>
+        
+          <a class="article-more-a" href="/2019/02/22/UIBezierPath/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/22/UIBezierPath/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Method-Swizzling黑魔法" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -168,8 +244,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</p>
-<p>而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。</p>
+        <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><h4 id="Method-Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method-Swizzling代码写到任何地方，但是只有在这段Method-Swilzzling代码执行完毕之后互换才起作用。"><a href="#Method-Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method-Swizzling代码写到任何地方，但是只有在这段Method-Swilzzling代码执行完毕之后互换才起作用。" class="headerlink" title="Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。"></a>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</h4><p>而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。</p>
         
           <a class="article-more-a" href="/2019/02/12/Method-Swizzling黑魔法/#more">more >></a>
         
