@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://SuyChen.github.io">
-  <title>Archives: 2019 | SuyChen的Blog</title>
+  <title>Mac上怎么把mov转成gif文件 | SuyChen的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="SuyChen的Blog">
-<meta property="og:url" content="http://SuyChen.github.io/archives/2019/index.html">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;在github上，我们发现很多开源库的效果图都是视频文件，一开始我以为readme可以上传视频，结果是不行的，必须把mov文件格式转成gif也就是动图，平时聊天我们也发现经常有些小伙伴发一些自制的gif文件。怎么把mov，MP4等其他格式的文件转为gif文件呢？网上有很多介绍各种软件的，大家可以随便Google一下，我今天给大家讲讲怎么用终端+命令行的方式实现mov等其">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac上怎么把mov转成gif文件">
+<meta property="og:url" content="http://SuyChen.github.io/2019/02/25/Mac上怎么把mov转成gif文件/index.html">
 <meta property="og:site_name" content="SuyChen的Blog">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;在github上，我们发现很多开源库的效果图都是视频文件，一开始我以为readme可以上传视频，结果是不行的，必须把mov文件格式转成gif也就是动图，平时聊天我们也发现经常有些小伙伴发一些自制的gif文件。怎么把mov，MP4等其他格式的文件转为gif文件呢？网上有很多介绍各种软件的，大家可以随便Google一下，我今天给大家讲讲怎么用终端+命令行的方式实现mov等其">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-02-25T09:07:33.435Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SuyChen的Blog">
+<meta name="twitter:title" content="Mac上怎么把mov转成gif文件">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;在github上，我们发现很多开源库的效果图都是视频文件，一开始我以为readme可以上传视频，结果是不行的，必须把mov文件格式转成gif也就是动图，平时聊天我们也发现经常有些小伙伴发一些自制的gif文件。怎么把mov，MP4等其他格式的文件转为gif文件呢？网上有很多介绍各种软件的，大家可以随便Google一下，我今天给大家讲讲怎么用终端+命令行的方式实现mov等其">
   
     <link rel="alternative" href="/atom.xml" title="SuyChen的Blog" type="application/atom+xml">
   
@@ -146,36 +151,79 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Mac上怎么把mov转成gif文件" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Mac上怎么把mov转成gif文件
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/25/Mac上怎么把mov转成gif文件/" class="archive-article-date">
+
+        
+        <a href="/2019/02/25/Mac上怎么把mov转成gif文件/" class="archive-article-date">
   	<time datetime="2019-02-25T08:37:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-25</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/25/Mac上怎么把mov转成gif文件/">Mac上怎么把mov转成gif文件</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>&emsp;&emsp;在github上，我们发现很多开源库的效果图都是视频文件，一开始我以为readme可以上传视频，结果是不行的，必须把mov文件格式转成gif也就是动图，平时聊天我们也发现经常有些小伙伴发一些自制的gif文件。怎么把mov，MP4等其他格式的文件转为gif文件呢？网上有很多介绍各种软件的，大家可以随便Google一下，我今天给大家讲讲怎么用终端+命令行的方式实现mov等其他格式到gif的转换。</p>
+<a id="more"></a>
+<h5 id="首先安装homebrew"><a href="#首先安装homebrew" class="headerlink" title="首先安装homebrew"></a>首先安装homebrew</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+<h5 id="然后安装"><a href="#然后安装" class="headerlink" title="然后安装"></a>然后安装</h5><ul>
+<li><a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js</a> (<code>$ brew install node</code>)</li>
+<li><a href="http://ffmpeg.org/" target="_blank" rel="noopener">FFmpeg</a> <a href="http://en.wikipedia.org/wiki/FFmpeg#History" target="_blank" rel="noopener">🐓🐓🐓🐓</a> (<code>$ brew install ffmpeg</code>)</li>
+<li><a href="http://www.imagemagick.org/script/convert.php" target="_blank" rel="noopener">convert</a>, the famous <a href="http://www.imagemagick.org/" target="_blank" rel="noopener">ImageMagick</a> (<code>$ brew install imagemagick</code>)</li>
+<li><a href="https://github.com/pornel/giflossy/releases" target="_blank" rel="noopener">pornel/giflossy</a>, it’s a <a href="http://www.lcdf.org/gifsicle/" target="_blank" rel="noopener">gifsicle</a> fork (waiting for <a href="https://github.com/kohler/gifsicle/pull/16" target="_blank" rel="noopener">gifsicle#16</a> to be merged) (<code>$ brew install giflossy</code>)</li>
+</ul>
+<p>You can also use the <a href="https://github.com/maxogden/gifify-docker" target="_blank" rel="noopener">gifify Docker image</a> which comes with everything installed.</p>
+<h5 id="最后安装gifify"><a href="#最后安装gifify" class="headerlink" title="最后安装gifify"></a>最后安装gifify</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g gifify</span><br></pre></td></tr></table></figure>
+<p>执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifify -h</span><br></pre></td></tr></table></figure>
+<p>最后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifify timer.mov -o timer.gif</span><br></pre></td></tr></table></figure>
+<p>上面的timer.mov和timer.gif替换为文件所在路径</p>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><p>1.你有可能会遇到convert needs fontconfig这个报错</p>
+<p>解决方案：打开你的gifify可执行文件如下</p>
+<p><a href="https://github.com/vvo/gifify/blob/master/bin/gifify#L92-L93" target="_blank" rel="noopener">https://github.com/vvo/gifify/blob/master/bin/gifify#L92-L93</a></p>
+<p>把里面fontconfig字段删掉</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://github.com/vvo/gifify" target="_blank" rel="noopener">vvo/gifify</a></li>
+</ul>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -187,133 +235,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://SuyChen.github.io/2019/02/25/Mac上怎么把mov转成gif文件/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/22/UIBezierPath/" class="archive-article-date">
-  	<time datetime="2019-02-22T06:18:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-22</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/02/22/UIBezierPath/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UIBezierPath</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/22/UIBezierPath/">UIBezierPath</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/12/Method-Swizzling黑魔法/" class="archive-article-date">
-  	<time datetime="2019-02-12T09:06:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/12/Method-Swizzling黑魔法/">Method Swizzling黑魔法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/01/05/反射机制/" class="archive-article-date">
-  	<time datetime="2019-01-05T08:26:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/01/05/反射机制/">反射机制</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -336,8 +357,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
