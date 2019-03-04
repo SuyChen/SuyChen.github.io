@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://SuyChen.github.io">
-  <title>SuyChen的Blog</title>
+  <title>AFNetworking源码浅析1 | SuyChen的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="SuyChen的Blog">
-<meta property="og:url" content="http://SuyChen.github.io/index.html">
+  <meta name="description" content="前言看了那么多AFNetworking的源码解析，自己做一下总结。我觉得要从宏观和微观的角度上来看这份伟大的源码。宏观就是从AFN主要的功能模块，AFN到底做了哪些事情，AFN的优点，AFN用了什么方式解耦，解决了什么问题，为什么要用它。微观就是逐行解析每句代码的含义，让人受益匪浅。">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AFNetworking源码浅析1">
+<meta property="og:url" content="http://SuyChen.github.io/2019/02/28/AFNetworking源码解析1/index.html">
 <meta property="og:site_name" content="SuyChen的Blog">
+<meta property="og:description" content="前言看了那么多AFNetworking的源码解析，自己做一下总结。我觉得要从宏观和微观的角度上来看这份伟大的源码。宏观就是从AFN主要的功能模块，AFN到底做了哪些事情，AFN的优点，AFN用了什么方式解耦，解决了什么问题，为什么要用它。微观就是逐行解析每句代码的含义，让人受益匪浅。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-04T07:30:39.802Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SuyChen的Blog">
+<meta name="twitter:title" content="AFNetworking源码浅析1">
+<meta name="twitter:description" content="前言看了那么多AFNetworking的源码解析，自己做一下总结。我觉得要从宏观和微观的角度上来看这份伟大的源码。宏观就是从AFN主要的功能模块，AFN到底做了哪些事情，AFN的优点，AFN用了什么方式解耦，解决了什么问题，为什么要用它。微观就是逐行解析每句代码的含义，让人受益匪浅。">
   
     <link rel="alternative" href="/atom.xml" title="SuyChen的Blog" type="application/atom+xml">
   
@@ -146,16 +151,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-AFNetworking源码解析1" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+            <article id="post-AFNetworking源码解析1" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/28/AFNetworking源码解析1/">AFNetworking源码浅析1</a>
+    <h1 class="article-title" itemprop="name">
+      AFNetworking源码浅析1
     </h1>
   
 
@@ -169,9 +172,85 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>看了那么多AFNetworking的源码解析，自己做一下总结。我觉得要从宏观和微观的角度上来看这份伟大的源码。宏观就是从AFN主要的功能模块，AFN到底做了哪些事情，AFN的优点，AFN用了什么方式解耦，解决了什么问题，为什么要用它。微观就是逐行解析每句代码的含义，让人受益匪浅。</p>
-        
+<a id="more"></a>
+<h2 id="宏观"><a href="#宏观" class="headerlink" title="宏观"></a>宏观</h2><h4 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h4><ul>
+<li>网络通信模块(AFURLSessionManager、AFHTTPSessionManger)</li>
+<li>网络状态监听模块(Reachability)</li>
+<li>网络通信安全策略模块(Security)</li>
+<li>网络通信信息序列化/反序列化模块(Serialization)</li>
+<li>对于iOS UIKit库的扩展(UIKit)</li>
+</ul>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>原有基础urlsesson上封装了一层，在传参方面更灵活</li>
+<li>使用block回调更友好</li>
+<li>支持返回序列化和反序列化</li>
+<li>支持文件上传，断点下载</li>
+<li>自带多线程，防死锁</li>
+<li>处理了Https证书流程，节省移动端开发</li>
+<li>支持网络状态判断</li>
+</ul>
+<h4 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h4><ul>
+<li><p>block回调</p>
+</li>
+<li><p>创建字典管理代理的创建与销毁</p>
+</li>
+</ul>
+<h2 id="微观"><a href="#微观" class="headerlink" title="微观"></a>微观</h2><p>我们先来看第一个非常重要的类：</p>
+<p>####AFURLSessionManager</p>
+<p>这个类主要提供了数据的请求、上传和下载功能</p>
+<p>在属性方面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@property(readonly,nonatomic,strong)NSArray *tasks;</span><br><span class="line"></span><br><span class="line">@property(readonly,nonatomic,strong)NSArray *dataTasks;</span><br><span class="line"></span><br><span class="line">@property(readonly,nonatomic,strong)NSArray *uploadTasks;</span><br><span class="line"></span><br><span class="line">@property(readonly,nonatomic,strong)NSArray *downloadTasks;</span><br></pre></td></tr></table></figure>
+<p>通过这四个属性，我们分别可以拿到总的任务集合、数据任务集合、上传任务集合和下载任务集合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property(nonatomic,assign)BOOL attemptsToRecreateUploadTasksForBackgroundSessions;</span><br></pre></td></tr></table></figure>
+<p>这个属性非常重要，注释里面写到，在iOS7中存在一个bug，在创建后台上传任务时，有时候会返回nil，所以为了解决这个问题，AFNetworking遵照了苹果的建议，在创建失败的时候，会重新尝试创建，次数默认为3次，所以你的应用如果有场景会有在后台上传的情况的话，记得将该值设为YES，避免出现上传失败的问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FOUNDATION_EXPORT NSString * const AFNetworkingTaskDidResumeNotification;</span><br></pre></td></tr></table></figure>
+<p>在对外提供的notification key里面，使用了<code>FOUNDATION_EXPORT</code>来定义常量，使用<code>FOUNDATION_EXPORT</code>和<code>extern</code>或者<code>define</code>有什么区别呢？</p>
+<p><code>FOUNDATION_EXPORT</code>在c文件编译下是和extern等同，在c++文件编译下是和extern “C”等同，在32位机的环境下又是另外编译情况，在兼容性方面，<code>FOUNDATION_EXPORT</code>做的会更好。</p>
+<p>进入到实现文件里面，我们可以看到在外部API调用dataTask、uploadTask、downloadTask方法实际上都是completionHanlder block返回出来的，但是我们知道网络请求是delegate返回结果的，AF内部做了巧妙的操作，他对每个task都增加代理设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request</span><br><span class="line">                               uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgressBlock</span><br><span class="line">                             downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgressBlock</span><br><span class="line">                            completionHandler:(nullable void (^)(NSURLResponse *response, id _Nullable responseObject,  NSError * _Nullable error))completionHandler &#123;</span><br><span class="line">    // 创建NSURLSessionDataTask                       </span><br><span class="line">	__block NSURLSessionDataTask *dataTask = nil;</span><br><span class="line">	//将dataTask传入block中用__block修饰, 是指针传递, 这样就可以为dataTask赋值.</span><br><span class="line">    url_session_manager_create_task_safely(^&#123;</span><br><span class="line">        dataTask = [self.session dataTaskWithRequest:request];</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">	// 每个task里面都会调用addDelegate方法</span><br><span class="line">    [self addDelegateForDataTask:dataTask uploadProgress:uploadProgressBlock downloadProgress:downloadProgressBlock completionHandler:completionHandler];</span><br><span class="line"></span><br><span class="line">    return dataTask;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在设置里面，每个task会在内部创建<code>AFURLSessionManagerTaskDelegate</code>对象，并设置completionHandler、uploadProgressBlock、downloadProgressBlock回调</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (void)addDelegateForDataTask:(NSURLSessionDataTask *)dataTask</span><br><span class="line">                uploadProgress:(nullable void (^)(NSProgress *uploadProgress)) uploadProgressBlock</span><br><span class="line">              downloadProgress:(nullable void (^)(NSProgress *downloadProgress)) downloadProgressBlock</span><br><span class="line">             completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler</span><br><span class="line">&#123;</span><br><span class="line">    // 初始化delegate对象 将AFURLSessionManagerTaskDelegate和manager建立关系</span><br><span class="line">    AFURLSessionManagerTaskDelegate *delegate = [[AFURLSessionManagerTaskDelegate alloc] init];</span><br><span class="line">    delegate.manager = self;</span><br><span class="line">    // 将task的completionHandler赋给delegate，系统网络请求delegate 调用该block，返回结果</span><br><span class="line">    delegate.completionHandler = completionHandler;</span><br><span class="line">    // 将datatask和delegate建立关系, 以task.taskIdentifier作为key, delegate作为value, 存储到一个mutableTaskDelegatesKeyedByTaskIdentifier(manager的属性)字典中</span><br><span class="line">    dataTask.taskDescription = self.taskDescriptionForSessionTasks;</span><br><span class="line">    // 对task进行delegate</span><br><span class="line">    [self setDelegate:delegate forTask:dataTask];</span><br><span class="line">	// 设置上传和下载进度回调</span><br><span class="line">    delegate.uploadProgressBlock = uploadProgressBlock;</span><br><span class="line">    delegate.downloadProgressBlock = downloadProgressBlock;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后delegate对象利用kvo将task对一些方法进行监听，并且监听到变化时，通过block返回，将delegate转成block出去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)setDelegate:(AFURLSessionManagerTaskDelegate *)delegate</span><br><span class="line">            forTask:(NSURLSessionTask *)task</span><br><span class="line">&#123;</span><br><span class="line">    NSParameterAssert(task);</span><br><span class="line">    NSParameterAssert(delegate);</span><br><span class="line"></span><br><span class="line">    [self.lock lock];</span><br><span class="line">    self.mutableTaskDelegatesKeyedByTaskIdentifier[@(task.taskIdentifier)] = delegate;</span><br><span class="line">    [self addNotificationObserverForTask:task];</span><br><span class="line">    [self.lock unlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里是AFN处理很巧妙地地方，通过字典来控制了请求任务的生命周期，各个请求之间互不干涉，也防止了循环引用，因为一旦任务完成代理就会被移除：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)URLSession:(NSURLSession *)session</span><br><span class="line">              task:(NSURLSessionTask *)task</span><br><span class="line">didCompleteWithError:(NSError *)error</span><br><span class="line">&#123;</span><br><span class="line">    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:task];</span><br><span class="line"></span><br><span class="line">    // delegate may be nil when completing a task in the background</span><br><span class="line">    if (delegate) &#123;</span><br><span class="line">        [delegate URLSession:session task:task didCompleteWithError:error];</span><br><span class="line"></span><br><span class="line">        [self removeDelegateForTask:task];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (self.taskDidComplete) &#123;</span><br><span class="line">        self.taskDidComplete(session, task, error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="AFURLSessionManagerTaskDelegate就是创建的代理对象"><a href="#AFURLSessionManagerTaskDelegate就是创建的代理对象" class="headerlink" title="AFURLSessionManagerTaskDelegate就是创建的代理对象"></a>AFURLSessionManagerTaskDelegate就是创建的代理对象</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype)initWithTask:(NSURLSessionTask *)task &#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (!self) &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    _mutableData = [NSMutableData data];</span><br><span class="line">    _uploadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];</span><br><span class="line">    _downloadProgress = [[NSProgress alloc] initWithParent:nil userInfo:nil];</span><br><span class="line">    </span><br><span class="line">    __weak __typeof__(task) weakTask = task;</span><br><span class="line">    for (NSProgress *progress in @[ _uploadProgress, _downloadProgress ])</span><br><span class="line">    &#123;</span><br><span class="line">        progress.totalUnitCount = NSURLSessionTransferSizeUnknown;</span><br><span class="line">        progress.cancellable = YES;</span><br><span class="line">        progress.cancellationHandler = ^&#123;</span><br><span class="line">            [weakTask cancel];</span><br><span class="line">        &#125;;</span><br><span class="line">        progress.pausable = YES;</span><br><span class="line">        progress.pausingHandler = ^&#123;</span><br><span class="line">            [weakTask suspend];</span><br><span class="line">        &#125;;</span><br><span class="line">#if AF_CAN_USE_AT_AVAILABLE</span><br><span class="line">        if (@available(iOS 9, macOS 10.11, *))</span><br><span class="line">#else</span><br><span class="line">        if ([progress respondsToSelector:@selector(setResumingHandler:)])</span><br><span class="line">#endif</span><br><span class="line">        &#123;</span><br><span class="line">            progress.resumingHandler = ^&#123;</span><br><span class="line">                [weakTask resume];</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        [progress addObserver:self</span><br><span class="line">                   forKeyPath:NSStringFromSelector(@selector(fractionCompleted))</span><br><span class="line">                      options:NSKeyValueObservingOptionNew</span><br><span class="line">                      context:NULL];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary&lt;NSString *,id&gt; *)change context:(void *)context &#123;</span><br><span class="line">   if ([object isEqual:self.downloadProgress]) &#123;</span><br><span class="line">        if (self.downloadProgressBlock) &#123;</span><br><span class="line">            self.downloadProgressBlock(object);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else if ([object isEqual:self.uploadProgress]) &#123;</span><br><span class="line">        if (self.uploadProgressBlock) &#123;</span><br><span class="line">            self.uploadProgressBlock(object);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上传和下载进度用了<code>NSProgress</code>这个专门用于记录进度的类，使用kvo的方式来监听进度的变化</p>
+<p>在<code>NSURLSessionTaskDelegate</code>的代理里面，只是做了两件事情，第一个是获取数据，将responseSerializer和downloadFileURL或data存到userInfo里面，第二个是根据error是否为空值，做下一步处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - NSURLSessionTaskDelegate</span><br><span class="line"></span><br><span class="line">- (void)URLSession:(__unused NSURLSession *)session</span><br><span class="line">              task:(NSURLSessionTask *)task</span><br><span class="line">didCompleteWithError:(NSError *)error</span><br><span class="line">&#123;</span><br><span class="line">    __strong AFURLSessionManager *manager = self.manager;</span><br><span class="line"></span><br><span class="line">    __block id responseObject = nil;</span><br><span class="line"></span><br><span class="line">    __block NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];</span><br><span class="line">    userInfo[AFNetworkingTaskDidCompleteResponseSerializerKey] = manager.responseSerializer;</span><br><span class="line"></span><br><span class="line">    //Performance Improvement from #2672</span><br><span class="line">    NSData *data = nil;</span><br><span class="line">    if (self.mutableData) &#123;</span><br><span class="line">        data = [self.mutableData copy];</span><br><span class="line">        //We no longer need the reference, so nil it out to gain back some memory.</span><br><span class="line">        self.mutableData = nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">#if AF_CAN_USE_AT_AVAILABLE &amp;&amp; AF_CAN_INCLUDE_SESSION_TASK_METRICS</span><br><span class="line">    if (@available(iOS 10, macOS 10.12, watchOS 3, tvOS 10, *)) &#123;</span><br><span class="line">        if (self.sessionTaskMetrics) &#123;</span><br><span class="line">            userInfo[AFNetworkingTaskDidCompleteSessionTaskMetrics] = self.sessionTaskMetrics;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">    if (self.downloadFileURL) &#123;</span><br><span class="line">        userInfo[AFNetworkingTaskDidCompleteAssetPathKey] = self.downloadFileURL;</span><br><span class="line">    &#125; else if (data) &#123;</span><br><span class="line">        userInfo[AFNetworkingTaskDidCompleteResponseDataKey] = data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (error) &#123;</span><br><span class="line">        userInfo[AFNetworkingTaskDidCompleteErrorKey] = error;</span><br><span class="line"></span><br><span class="line">        dispatch_group_async(manager.completionGroup ?: url_session_manager_completion_group(), manager.completionQueue ?: dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            if (self.completionHandler) &#123;</span><br><span class="line">                self.completionHandler(task.response, responseObject, error);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidCompleteNotification object:task userInfo:userInfo];</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        dispatch_async(url_session_manager_processing_queue(), ^&#123;</span><br><span class="line">            NSError *serializationError = nil;</span><br><span class="line">            responseObject = [manager.responseSerializer responseObjectForResponse:task.response data:data error:&amp;serializationError];</span><br><span class="line"></span><br><span class="line">            if (self.downloadFileURL) &#123;</span><br><span class="line">                responseObject = self.downloadFileURL;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (responseObject) &#123;</span><br><span class="line">                userInfo[AFNetworkingTaskDidCompleteSerializedResponseKey] = responseObject;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (serializationError) &#123;</span><br><span class="line">                userInfo[AFNetworkingTaskDidCompleteErrorKey] = serializationError;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            dispatch_group_async(manager.completionGroup ?: url_session_manager_completion_group(), manager.completionQueue ?: dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                if (self.completionHandler) &#123;</span><br><span class="line">                    self.completionHandler(task.response, responseObject, serializationError);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                    [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidCompleteNotification object:task userInfo:userInfo];</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在有error时，userInfo先存储error，然后检查manager是否有completionGroup和completionQueue，没有的话，就创建一个dispatch_group_t和在主线程上做completionHandler的操作，并在主线程中发送一个AFNetworkingTaskDidCompleteNotification通知，这个通知在UIKit+AFNetworking里UIRefreshControl +AFNetworking里也会接收到，用来停止刷新，如果你不使用AF的UI部分，你可以通过接收这个通知来做操作。</p>
+<p>再下面两个则是收到数据和下载文件的回调处理</p>
+<p>NSURLSessionDataDelegate</p>
+<p>NSURLSessionDownloadDelegate</p>
+<h5 id="AFURLSessionTaskSwizzling"><a href="#AFURLSessionTaskSwizzling" class="headerlink" title="_AFURLSessionTaskSwizzling"></a>_AFURLSessionTaskSwizzling</h5><p>这个类专门做了交换方法，对系统的resume和suspend方法进行了替换，增加了通知处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">+ (void)swizzleResumeAndSuspendMethodForClass:(Class)theClass &#123;</span><br><span class="line">    Method afResumeMethod = class_getInstanceMethod(self, @selector(af_resume));</span><br><span class="line">    Method afSuspendMethod = class_getInstanceMethod(self, @selector(af_suspend));</span><br><span class="line"></span><br><span class="line">    if (af_addMethod(theClass, @selector(af_resume), afResumeMethod)) &#123;</span><br><span class="line">        af_swizzleSelector(theClass, @selector(resume), @selector(af_resume));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (af_addMethod(theClass, @selector(af_suspend), afSuspendMethod)) &#123;</span><br><span class="line">        af_swizzleSelector(theClass, @selector(suspend), @selector(af_suspend));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (void)af_resume &#123;</span><br><span class="line">    NSAssert([self respondsToSelector:@selector(state)], @&quot;Does not respond to state&quot;);</span><br><span class="line">    NSURLSessionTaskState state = [self state];</span><br><span class="line">    [self af_resume];</span><br><span class="line">    </span><br><span class="line">    if (state != NSURLSessionTaskStateRunning) &#123;</span><br><span class="line">        [[NSNotificationCenter defaultCenter] postNotificationName:AFNSURLSessionTaskDidResumeNotification object:self];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)af_suspend &#123;</span><br><span class="line">    NSAssert([self respondsToSelector:@selector(state)], @&quot;Does not respond to state&quot;);</span><br><span class="line">    NSURLSessionTaskState state = [self state];</span><br><span class="line">    [self af_suspend];</span><br><span class="line">    </span><br><span class="line">    if (state != NSURLSessionTaskStateSuspended) &#123;</span><br><span class="line">        [[NSNotificationCenter defaultCenter] postNotificationName:AFNSURLSessionTaskDidSuspendNotification object:self];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在调用替换和增加方法时候，用到了关键字inline，inline是为了防止反汇编之后，在符号表里面看不到你所调用的该方法，否则别人可以通过篡改你的返回值来造成攻击，<a href="http://www.blogfshare.com/ioss-static-inline.html" target="_blank" rel="noopener">iOS安全–使用static inline方式编译函数，防止静态分析</a>，特别是在使用swizzling的时候，那除了使用swizzling动态替换函数方法之外，还有别的方法么？有，修改IMP指针指向的方法，<a href="http://www.cocoachina.com/ios/20150717/12623.html" target="_blank" rel="noopener">轻松学习之 IMP指针的作用 - CocoaChina_让移动开发更简单</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static inline void af_swizzleSelector(Class theClass, SEL originalSelector, SEL swizzledSelector) &#123;</span><br><span class="line">    Method originalMethod = class_getInstanceMethod(theClass, originalSelector);</span><br><span class="line">    Method swizzledMethod = class_getInstanceMethod(theClass, swizzledSelector);</span><br><span class="line">    method_exchangeImplementations(originalMethod, swizzledMethod);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static inline BOOL af_addMethod(Class theClass, SEL selector, Method method) &#123;</span><br><span class="line">    return class_addMethod(theClass, selector,  method_getImplementation(method),  method_getTypeEncoding(method));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -191,16 +270,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/28/AFNetworking源码解析1/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://SuyChen.github.io/2019/02/28/AFNetworking源码解析1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/02/25/Mac上怎么把mov转成gif文件/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Mac上怎么把mov转成gif文件</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -220,378 +358,14 @@
 
 
 
-
   
-    <article id="post-Mac上怎么把mov转成gif文件" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/25/Mac上怎么把mov转成gif文件/">Mac上怎么把mov转成gif文件</a>
-    </h1>
   
 
-        
-        <a href="/2019/02/25/Mac上怎么把mov转成gif文件/" class="archive-article-date">
-  	<time datetime="2019-02-25T08:37:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>&emsp;&emsp;在github上，我们发现很多开源库的效果图都是视频文件，一开始我以为readme可以上传视频，结果是不行的，必须把mov文件格式转成gif也就是动图，平时聊天我们也发现经常有些小伙伴发一些自制的gif文件。怎么把mov，MP4等其他格式的文件转为gif文件呢？网上有很多介绍各种软件的，大家可以随便Google一下，我今天给大家讲讲怎么用终端+命令行的方式实现mov等其他格式到gif的转换。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/25/Mac上怎么把mov转成gif文件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-UIBezierPath" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/22/UIBezierPath/">UIBezierPath</a>
-    </h1>
   
 
-        
-        <a href="/2019/02/22/UIBezierPath/" class="archive-article-date">
-  	<time datetime="2019-02-22T06:18:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>&emsp;&emsp;最近在做拼图的项目，刚开始还一脸懵逼，这该怎么画。。。感觉用iOS原生代码好难实现，经过调研之后发现用三阶贝塞尔曲线可以实现，不禁感慨千人的智慧实在是太强大了。之前也用过一些贝塞尔曲线的方法，都是画简单的图形，比如说圆，椭圆，直线等等，这些UIBezierPath都提供有专门的方法来实现，但是用到曲线的地方还是很少的，特别是三阶曲线，更不要说四阶，五阶了，所以今天介绍一下关于贝塞尔曲线的前世今生和本人遇到的问题。 </p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/22/UIBezierPath/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Method-Swizzling黑魔法" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/12/Method-Swizzling黑魔法/">Method Swizzling黑魔法</a>
-    </h1>
   
 
-        
-        <a href="/2019/02/12/Method-Swizzling黑魔法/" class="archive-article-date">
-  	<time datetime="2019-02-12T09:06:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><h4 id="Method-Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method-Swizzling代码写到任何地方，但是只有在这段Method-Swilzzling代码执行完毕之后互换才起作用。"><a href="#Method-Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method-Swizzling代码写到任何地方，但是只有在这段Method-Swilzzling代码执行完毕之后互换才起作用。" class="headerlink" title="Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。"></a>Method Swizzing是发生在运行时的，主要用于在运行时将两个Method进行交换，我们可以将Method Swizzling代码写到任何地方，但是只有在这段Method Swilzzling代码执行完毕之后互换才起作用。</h4><p>而且Method Swizzling也是iOS中AOP(面相切面编程)的一种实现方式，我们可以利用苹果这一特性来实现AOP编程。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/12/Method-Swizzling黑魔法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-反射机制" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/05/反射机制/">反射机制</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/05/反射机制/" class="archive-article-date">
-  	<time datetime="2019-01-05T08:26:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="了解反射机制"><a href="#了解反射机制" class="headerlink" title="了解反射机制"></a>了解反射机制</h3><p>Objective-C语言中的OC对象，都继承自NSObject类。这个类为我们提供了一些基础的方法和协议，我们可以直接调用从这个类继承过来方法。当然，本篇文章中讲到的反射方法，就在NSObject和Foundation框架中。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/05/反射机制/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Hexo搭建的GitHub博客" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/16/Hexo搭建的GitHub博客/">Hexo搭建的GitHub博客</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/16/Hexo搭建的GitHub博客/" class="archive-article-date">
-  	<time datetime="2018-10-16T10:04:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="为什么想要写博客？"><a href="#为什么想要写博客？" class="headerlink" title="为什么想要写博客？"></a>为什么想要写博客？</h4><p>年龄大了记性不好，想要整理些有用的东西。。。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/16/Hexo搭建的GitHub博客/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -614,8 +388,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
