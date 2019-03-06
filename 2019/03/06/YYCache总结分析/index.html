@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://suychen.github.io/2019/03/06/YYCache总结分析/1.png">
 <meta property="og:image" content="http://suychen.github.io/2019/03/06/YYCache总结分析/2.png">
 <meta property="og:image" content="http://suychen.github.io/2019/03/06/YYCache总结分析/3.png">
-<meta property="og:updated_time" content="2019-03-06T09:29:49.084Z">
+<meta property="og:updated_time" content="2019-03-06T09:34:26.027Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="YYCache总结分析">
 <meta name="twitter:description" content="缓存的意义？ 避免多余的数据请求。  让用户在离线的情况下也能使用APP，提高用户体验。">
@@ -175,34 +175,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="缓存的意义？"><a href="#缓存的意义？" class="headerlink" title="缓存的意义？"></a>缓存的意义？</h1><ul>
+        <h4 id="缓存的意义？"><a href="#缓存的意义？" class="headerlink" title="缓存的意义？"></a>缓存的意义？</h4><ol>
 <li><p>避免多余的数据请求。</p>
 </li>
 <li><p>让用户在离线的情况下也能使用APP，提高用户体验。</p>
 </li>
-</ul>
+</ol>
 <a id="more"></a>
-<h2 id="YYCache"><a href="#YYCache" class="headerlink" title="YYCache"></a>YYCache</h2><p>#####iOS 开发中总会用到各种缓存，YYCache或许是你最好的选择。</p>
+<p>####YYCache</p>
+<p>#####iOS 开发中总会用到各种缓存，YYCache或许是你最好的选择。</p>
 <p>通常一个缓存是由内存缓存和磁盘缓存组成，内存缓存提供容量小但高速的存取功能，磁盘缓存提供大容量但低速的持久化存储。</p>
 <p><img src="/2019/03/06/YYCache总结分析/1.png" alt="1"></p>
 <p>上面这个图就是整个YYCache的结构，<code>YYCache</code>是对<code>YYMemoryCache</code>和<code>YYDiskCache</code>的封装，而<code>YYDiskCache</code>又是对<code>YYKVStorage</code>的封装，<code>YYMemoryCache</code>是内存缓存，<code>YYDiskCache</code>是文件缓存也就是磁盘缓存。</p>
-<h2 id="LRU淘汰算法"><a href="#LRU淘汰算法" class="headerlink" title="LRU淘汰算法"></a>LRU淘汰算法</h2><p>####1.LRU</p>
-<p>LRU淘汰算法是YYCache的核心算法。Cache的容量是有限的，当Cache的空间都被占满后，如果再次发生缓存失效，就必须选择一个缓存块来替换掉.LRU法是依据各块使用的情况，总是选择那个最长时间未被使用的块替换。</p>
+<h4 id="LRU淘汰算法"><a href="#LRU淘汰算法" class="headerlink" title="LRU淘汰算法"></a>LRU淘汰算法</h4><h5 id="1-LRU"><a href="#1-LRU" class="headerlink" title="1.LRU"></a>1.LRU</h5><p>LRU淘汰算法是YYCache的核心算法。Cache的容量是有限的，当Cache的空间都被占满后，如果再次发生缓存失效，就必须选择一个缓存块来替换掉.LRU法是依据各块使用的情况，总是选择那个最长时间未被使用的块替换。</p>
 <p>如图：</p>
 <p><img src="/2019/03/06/YYCache总结分析/2.png" alt="缓存淘汰算法"></p>
 <ol>
 <li>新添加的数据放在头部 2. 被访问到的数据放在头部 3 .超过最大缓存量的数据将被移除。</li>
 </ol>
-<h4 id="2-LRU主要采用两种数据结构实现"><a href="#2-LRU主要采用两种数据结构实现" class="headerlink" title="2.LRU主要采用两种数据结构实现"></a>2.LRU主要采用两种数据结构实现</h4><ul>
+<h5 id="2-LRU主要采用两种数据结构实现"><a href="#2-LRU主要采用两种数据结构实现" class="headerlink" title="2.LRU主要采用两种数据结构实现"></a>2.LRU主要采用两种数据结构实现</h5><ul>
 <li>双向链表（Doubly Linked List）</li>
 <li>哈希表（Dictionary）</li>
 </ul>
-<h4 id="3-对一个Cache的操作无非三种：插入、替换、查找"><a href="#3-对一个Cache的操作无非三种：插入、替换、查找" class="headerlink" title="3.对一个Cache的操作无非三种：插入、替换、查找"></a>3.对一个Cache的操作无非三种：插入、替换、查找</h4><ul>
+<h5 id="3-对一个Cache的操作无非三种：插入、替换、查找"><a href="#3-对一个Cache的操作无非三种：插入、替换、查找" class="headerlink" title="3.对一个Cache的操作无非三种：插入、替换、查找"></a>3.对一个Cache的操作无非三种：插入、替换、查找</h5><ul>
 <li>插入：当Cache未满时，新的数据项只需插到双链表头部即可</li>
 <li>替换：当Cache已满时，将新的数据项插到双链表头部，并删除双链表的尾结点即可</li>
 <li>查找：每次数据项被查询到时，都将此数据项移动到链表头部</li>
 </ul>
-<h4 id="4-分析图-分析源码时可以对照该图"><a href="#4-分析图-分析源码时可以对照该图" class="headerlink" title="4.分析图(分析源码时可以对照该图)"></a>4.分析图(分析源码时可以对照该图)</h4><p><img src="/2019/03/06/YYCache总结分析/3.png" alt=""></p>
+<h5 id="4-分析图-分析源码时可以对照该图"><a href="#4-分析图-分析源码时可以对照该图" class="headerlink" title="4.分析图(分析源码时可以对照该图)"></a>4.分析图(分析源码时可以对照该图)</h5><p><img src="/2019/03/06/YYCache总结分析/3.png" alt=""></p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="http://blog.ibireme.com/2015/10/26/yycache/" target="_blank" rel="noopener">YYCache 设计思路</a><br><a href="http://www.jianshu.com/p/b8dcf6634fab" target="_blank" rel="noopener">YYCache源码分析(一)</a><br><a href="http://www.jianshu.com/p/492c3c3a0485" target="_blank" rel="noopener">YYCache源码分析(二)</a><br><a href="https://www.jianshu.com/p/67184beda1d5" target="_blank" rel="noopener">YYCache源码分析(三)</a></p>
 
       
