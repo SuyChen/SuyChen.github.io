@@ -6,15 +6,60 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://SuyChen.github.io">
-  <title>Archives: 2019/4 | SuyChen的Blog</title>
+  <title>IOS国际化 | SuyChen的Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="SuyChen的Blog">
-<meta property="og:url" content="http://SuyChen.github.io/archives/2019/04/index.html">
+  <meta name="description" content="1. App名称国际化 2. 图片、文字国际化 3. 强制默认显示某种语言 4. 启动图国际化 5. iOS10所需的权限配置国际化 6. xib/storyboard国际化 7. 总结">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IOS国际化">
+<meta property="og:url" content="http://SuyChen.github.io/2019/04/11/IOS国际化/index.html">
 <meta property="og:site_name" content="SuyChen的Blog">
+<meta property="og:description" content="1. App名称国际化 2. 图片、文字国际化 3. 强制默认显示某种语言 4. 启动图国际化 5. iOS10所需的权限配置国际化 6. xib/storyboard国际化 7. 总结">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-917124e8525833e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-10a34690fc67daf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-f8b02f66166d02d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-7da3118e42f29322.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-f79051ef2f35cb22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-9b50c06c077209d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-465f2adfe62b1dfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-9a2e9cedd86b50a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/121">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-19677f815ab74fca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/120">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-9c2729879ef7ec21.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-c35cba0ede8bd0a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-25cf5f6680789f15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-952694dd42ed9e5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/490">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-d05e10ee8e21f12d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-69b86586f8ae56cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-d40838f51ff7650d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-29e4cd2cc2262600.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-abed7ffed1526578.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-b43121015d45c7f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-f718e103688f8461.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-84ac3ab4acee564c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-e2e75d3c74cd73c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-72cf9daca2ea3e71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-4a4c254d3b5888b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/826">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-bc67a41468e0fcd6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-42f032ff6a7a3842.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-0227a42ccc82fe47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-d88ee9a6c4b5aa0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-c113190163fe3115.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-43a2edfc9f5e3298.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/584">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-f39a73e6983d1432.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-2d6a47ccc1af6ab2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-a5d252211d416955.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-e26a5726d251a84a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-51daa9dd65971d5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-97ed23ce3f3f9942.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-2c1702b8a446f330.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-31f1d7e9321a2b72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5807622-c12178650502c1f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
+<meta property="og:updated_time" content="2019-04-11T02:39:41.871Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SuyChen的Blog">
+<meta name="twitter:title" content="IOS国际化">
+<meta name="twitter:description" content="1. App名称国际化 2. 图片、文字国际化 3. 强制默认显示某种语言 4. 启动图国际化 5. iOS10所需的权限配置国际化 6. xib/storyboard国际化 7. 总结">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5807622-917124e8525833e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000">
   
     <link rel="alternative" href="/atom.xml" title="SuyChen的Blog" type="application/atom+xml">
   
@@ -146,36 +191,194 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-IOS国际化" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      IOS国际化
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/11/IOS国际化/" class="archive-article-date">
+
+        
+        <a href="/2019/04/11/IOS国际化/" class="archive-article-date">
   	<time datetime="2019-04-11T02:36:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-11</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/11/IOS国际化/">IOS国际化</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>1. App名称国际化</strong></p>
+<p><strong>2. 图片、文字国际化</strong></p>
+<p><strong>3. 强制默认显示某种语言</strong></p>
+<p><strong>4. 启动图国际化</strong></p>
+<p><strong>5. iOS10所需的权限配置国际化</strong></p>
+<p><strong>6. xib/storyboard国际化</strong></p>
+<p><strong>7. 总结</strong></p>
+<a id="more"></a>
+<h2 id="1-App名称国际化"><a href="#1-App名称国际化" class="headerlink" title="1.App名称国际化"></a>1.App名称国际化</h2><p>非常简单地按步骤修改就可以了。</p>
+<p>PROJECT-Info-Localizations中点击下方的小“+”，添加需要添加的语言，本文中以简体中文和英文为例。（国际化的所有操作，都需要这一步作为前提。）</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-917124e8525833e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>添加以InfoPlist.string为名称的string文件。查到的资料都说需要名称一模一样才能使用，没试过其他的名字。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-10a34690fc67daf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-f8b02f66166d02d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>选中新建好的InfoPlist.string，点击Localize按钮，添加语言。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-7da3118e42f29322.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>完成上一步骤后在右边勾选所需要语言，Xcode会自动创建对应的string文件。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-f79051ef2f35cb22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>分别在对应的string文件中填写App名称就可以了。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-9b50c06c077209d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-465f2adfe62b1dfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-9a2e9cedd86b50a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/121" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-19677f815ab74fca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/120" alt="img"></p>
+<p><strong>*关于Bundle name和Bundle display name:</strong></p>
+<p><a href="https://link.jianshu.com/?t=https://stackoverflow.com/questions/9667582/bundle-name-and-bundle-display-name" target="_blank" rel="noopener">stackoverflow.com/questions/9667582/bundle-name-and-bundle-display-name</a></p>
+<p>就显示来说，Bundle display name关系着icon下方的App名称文本显示，而Bundle name则作为存储App的文件夹名称，并没有什么影响。</p>
+<p><strong>*用以上方法修改App名称的一个问题：</strong></p>
+<p>如果系统为有对应string文件的语言时，可以正常显示。</p>
+<p>如果系统为无对应string文件的语言时，删除App重装后会跟随设定的开发语言显示；直接修改系统语言时会跟随上一次有对应string文件时的语言显示。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-9c2729879ef7ec21.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>设定开发语言</p>
+<hr>
+<h3 id="2-图片、文字"><a href="#2-图片、文字" class="headerlink" title="2.图片、文字"></a>2.图片、文字</h3><p>仍是非常简单地按照步骤修改即可。</p>
+<p>首先创建一个string文件，名称为Localizable.string。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-c35cba0ede8bd0a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>选中Localizable.string，点击右边的Localize按钮，在弹框的下拉菜单中随便选一个需要添加string文件的语言，确认。（操作同InfoPlist.string的）</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-25cf5f6680789f15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>右边的小勾要点上，勾选了之后Xcode才会自动创建对应的string文件。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-952694dd42ed9e5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/490" alt="img"></p>
+<p>在对应的语言的Localizable.string文件中添加对应的图片名称和文本内容。</p>
+<blockquote>
+<p>“mainImage” = “mainImage_cn”;//等号左边为代码需要调用的key，右边为对应的中文图片名称value。</p>
+<p>“mainText” = “Chinese”;//等号左边为代码中需要调用的key，右边为对应的中文文本value。</p>
+</blockquote>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-d05e10ee8e21f12d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-69b86586f8ae56cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>最后，只要在代码中需要显示图片和文字的部分使用Foundation框架中的NSLocalizedString(key, comment)调用即可。</p>
+<blockquote>
+<p>// 程序将根据第一个参数去对应语言的文件中取对应的值，第二个参数将转化为字符串文件里的注释，可以传nil，也可以传空字符串@””。</p>
+<p>//#defineNSLocalizedString(key,comment) [[NSBundle mainBundle] localizedStringForKey:(key)value:@””table:nil]</p>
+<p>//图片调用</p>
+<p>UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:NSLocalizedString(@”mainImage”, nil) ]];</p>
+<p>//文本调用</p>
+<p>textLabel.text = NSLocalizedString(@”mainText”, nil);</p>
+</blockquote>
+<p>修改语言后的显示：</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-d40838f51ff7650d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-29e4cd2cc2262600.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622" alt="img"></p>
+<p><strong>*以上的操作后，代码中文字和图片的国际化已经完成了，但是在更换系统语言后会遇到一些问题。</strong></p>
+<p>我的项目中只做了简体中文和英文的语言设置，如果系统语言为日文时安装App，App中语言会根据我设置的开发语言显示为英文。如果在App已安装后更改系统语言为日文，则会跟随App上一次的语言设置作相同的显示。这样并不符合我的项目需求，因此我加入了下方的第三部分。</p>
+<hr>
+<h3 id="3-强制默认显示某种语言"><a href="#3-强制默认显示某种语言" class="headerlink" title="3.强制默认显示某种语言"></a>3.<strong>强制默认显示某种语言</strong></h3><p>我的项目需求：在系统语言选定为中文时，App语言为中文，其他情况下全部作英文显示。</p>
+<p>因此需要添加系统语言读取，经过判断后直接调用我需要的某种语言对应的值来显示。</p>
+<blockquote>
+<p>//在Appdelegate.m中添加系统语言检测与赋值</p>
+<p>NSArray *languages = [NSLocale preferredLanguages];</p>
+<p>NSString *language = [languages objectAtIndex:0];</p>
+<p>if ([language hasPrefix:@”zh”]) {//检测开头匹配，是否为中文</p>
+<p>[[NSUserDefaults standardUserDefaults] setObject:@”zh-Hans” forKey:@”appLanguage”];//App语言设置为中文</p>
+<p>}else{//其他语言</p>
+<p>[[NSUserDefaults standardUserDefaults] setObject:@”en” forKey:@”appLanguage”];//App语言设置为英文</p>
+<p>}</p>
+</blockquote>
+<blockquote>
+<p>//在需要的部分添加手动选取语言的宏，并调用得到对应的值</p>
+<p>//宏</p>
+<p>#define Localized(key)  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@”%@”,[[NSUserDefaults standardUserDefaults] objectForKey:@”appLanguage”]] ofType:@”lproj”]] localizedStringForKey:(key) value:nil table:@”Localizable”]</p>
+<p>//调用</p>
+<p>forceLabel.text = Localized(@”forceText”);</p>
+</blockquote>
+<p>选定系统语言为中文，安装App并运行（显示结果为图1），之后修改系统语言为日文（显示结果为图2），使用NSLocalizedString国际化的文字显示为中文，使用自定义宏Localized国际化的文字显示为英文。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-abed7ffed1526578.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622" alt="img"></p>
+<p>图1</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-b43121015d45c7f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622" alt="img"></p>
+<p>图2</p>
+<hr>
+<h3 id="4-启动图"><a href="#4-启动图" class="headerlink" title="4.启动图"></a>4.<strong>启动图</strong></h3><p>启动图国际化的方法有两种，一种是在Info.plist中添加图片（需要导入的图片较多），一种是添加不同的storyboard分别调用（需要导入的图片少些）。操作很简单，但是我在实际使用中遇到了两个问题花费了一些时间，问题将附于下方做一些简述。</p>
+<hr>
+<h4 id="4-1-图片-Info-plist使启动图国际化"><a href="#4-1-图片-Info-plist使启动图国际化" class="headerlink" title="4.1 图片+Info.plist使启动图国际化"></a>4.1 图片+Info.plist使启动图国际化</h4><p>这个方法同样可以用作App中图片的国际化，但是我比较习惯把图片导入Assets.xcassets中使用，因此在图片国际化中没有做介绍。这个方法主要是在Info.plist中直接配置启动页的参数来展示启动图，下方附上官方的文档。</p>
+<p><a href="https://link.jianshu.com/?t=https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html" target="_blank" rel="noopener">developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html</a></p>
+<p>首先取消默认的启动图，将TARGET-General-Launch Screen File中默认的LaunchScreen去掉，留空。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-f718e103688f8461.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>导入准备好的启动图，这里我做了3.5、4、4.7、5.5英寸的。之后选中图片，点击Localize按钮，这个步骤和string文件的操作一样，四个图片都要做。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-84ac3ab4acee564c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>右键点击设置好的片，选中Show in Finder。下图中，en.lproj中保存的是英文版的启动图，zh-Hans.lproj保存的是中文的启动图。把准备好的对应的图片修改名称后拖入就行了，图片名称一定要和工程中导入的一样。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-e2e75d3c74cd73c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>图片准备完毕之后，将Info.plist以源码的形式打开，或者是直接在属性列表中点击“+”添加对应的属性。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-72cf9daca2ea3e71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>Source Code中对应的代码：（demo的Sourcecode Codes中有）</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-4a4c254d3b5888b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/826" alt="img"></p>
+<p>Property List中对应的列表：</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-bc67a41468e0fcd6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>删除原先安装的App，重新安装后即可看到效果。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-42f032ff6a7a3842.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-0227a42ccc82fe47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/622" alt="img"></p>
+<p>运行后如果看不到启动图更换效果，请删除App后重新运行。</p>
+<hr>
+<p>4.2 storyboard+InfoPlist.string使启动图国际化</p>
+<p>首先创建作为启动页的storyboard，分别命名区分。我设置的名字是LaunchImage_En和LaunchImage_Ch，名字自己分得清就可以啦。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-d88ee9a6c4b5aa0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>storyboard中添加ViewController，勾选Is Initial View Controller（中英文的启动页都需要勾选），添加启动图，添加约束占满屏。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-c113190163fe3115.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-43a2edfc9f5e3298.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/584" alt="img"></p>
+<p><strong>设置好后在Info.plist中添加启动图名称。值我填了项目默认的LaunchScreen，但是并不用它作为启动图，后面还要手动赋值。</strong></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-f39a73e6983d1432.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>右键点击Show Raw Keys/Values看一下key。并在InfoPlist.string中手动将一开始创建的两个中英文启动图的storyboard值赋进。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-2d6a47ccc1af6ab2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-a5d252211d416955.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-e26a5726d251a84a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-51daa9dd65971d5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>storyboard更改启动图国际化完成。</p>
+<p>下面是一开始做国际化时遇到的关于启动图的两个问题。</p>
+<p><strong>*想要看到启动图的效果，必须删除原有App后重新安装。</strong>查找了一些相关的资料后发现，启动图的资源只会保留一份，在已有的情况下不会重新生成，根据苹果的用户交互指引,该页面是在程序加载时显示的,不建议动态修改。在比较了一些其他的App，例如QQ、DJI GO、淘宝、微博等，有些启动图使用的是可以在不同语言系统下共用的图片，其他的也并没有做动态修改。</p>
+<p><strong>*使用storyboard修改启动图时一定要记得在Info.plist中添加Launch screen interface file base name</strong>，不然无法显示启动图，运行后会看到App的icon变成了启动图，App的视图大小也会有问题。</p>
+<hr>
+<h3 id="5-iOS10所需的权限配置"><a href="#5-iOS10所需的权限配置" class="headerlink" title="5. iOS10所需的权限配置"></a>5. <strong>iOS10所需的权限配置</strong></h3><p>同storyboard设置启动图国际化。</p>
+<p>首先在Info.plist中添加好权限后右键，选择Show Raw Keys/Values看一下key。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-97ed23ce3f3f9942.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-2c1702b8a446f330.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p>把key复制进InfoPlist.string中分别写好对应的中英文描述即可。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-31f1d7e9321a2b72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/5807622-c12178650502c1f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000" alt="img"></p>
+<hr>
+<h3 id="6-xib-storyboard国际化"><a href="#6-xib-storyboard国际化" class="headerlink" title="6. xib/storyboard国际化"></a><strong>6. xib/storyboard国际化</strong></h3><p>官方文档中有图有真相地描述过啦！</p>
+<p><strong>developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPInternational/LocalizingYourApp/LocalizingYourApp.html</strong></p>
+<hr>
+<h3 id="7-总结"><a href="#7-总结" class="headerlink" title="7. 总结"></a><strong>7. 总结</strong></h3><p>iOS的项目国际化中并没有什么难点，主要是找到的一些描述比较含糊或者不全。</p>
+<p>国际化其实就是为各个语言单独创建一份资源，通过名称为*.lproj文件夹来保存。在勾选需要的语言后，Xcode会自动创建对应的文件，修改其中的值即可。</p>
+<p>转载链接：<a href="https://www.jianshu.com/p/f8edd7b7a217" target="_blank" rel="noopener">https://www.jianshu.com/p/f8edd7b7a217</a></p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -187,57 +390,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://SuyChen.github.io/2019/04/11/IOS国际化/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/08/iOS获取xcassets中的图片/" class="archive-article-date">
-  	<time datetime="2019-04-08T07:57:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/08/iOS获取xcassets中的图片/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS获取xcassets中的图片</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/08/iOS获取xcassets中的图片/">iOS获取xcassets中的图片</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -260,8 +512,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
